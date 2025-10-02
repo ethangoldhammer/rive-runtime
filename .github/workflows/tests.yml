@@ -22,9 +22,9 @@ jobs:
 
       - name: Build
         run: |
-          ./build_rive.sh clean
-          ./build_rive.sh
-          ./build_rive.sh release
+          ./build/build_rive.sh clean
+          ./build/build_rive.sh
+          ./build/build_rive.sh release
 
       - name: Tests
         run: |
@@ -59,8 +59,8 @@ jobs:
 
       - name: Build
         run: |
-          ./build_rive.sh
-          ./build_rive.sh release
+          ./build/build_rive.sh
+          ./build/build_rive.sh release
 
       - name: Build glfw
         working-directory: skia/dependencies/
