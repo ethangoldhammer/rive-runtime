@@ -203,7 +203,11 @@ else
         RIVE_BUILD_SYSTEM="${RIVE_BUILD_SYSTEM:-gmake2}"
     fi
 
-    RIVE_PREMAKE_ARGS="$RIVE_BUILD_SYSTEM --config=$RIVE_CONFIG --out=$RIVE_OUT $RIVE_PREMAKE_ARGS"
+    if [[ "$RIVE_BUILD_SYSTEM" == "vs2022" ]]; then
+        RIVE_PREMAKE_ARGS="$RIVE_BUILD_SYSTEM --config=$RIVE_CONFIG --out=$RIVE_OUT $RIVE_PREMAKE_ARGS"
+    else
+        RIVE_PREMAKE_ARGS="$RIVE_BUILD_SYSTEM --out=$RIVE_OUT $RIVE_PREMAKE_ARGS"
+    fi
     if [[ $RIVE_OS = "android" ]]; then
         # Premake stopped supporting "--os=android".
         # Use our own custom "--for_android" flag instead.
@@ -308,8 +312,8 @@ case "$RIVE_BUILD_SYSTEM" in
         wc ./compile_commands.json
         ;;
     gmake2)
-        echo make -C $RIVE_OUT -j$NUM_CORES $@
-        make -C $RIVE_OUT -j$NUM_CORES $@
+        echo make -C "$RIVE_OUT" -j"$NUM_CORES" config="$RIVE_CONFIG" "$@"
+        make -C "$RIVE_OUT" -j"$NUM_CORES" config="$RIVE_CONFIG" "$@"
         ;;
     ninja)
         echo ninja -C $RIVE_OUT $@
